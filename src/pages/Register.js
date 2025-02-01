@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
-import "./ImageLoader.css";
 
-const ImageUploader = () => {
+const Register = () => {
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null)
   const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
   const [message, setMessage] = useState('');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      setImage(URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const handleUpload = async () => {
@@ -23,19 +28,19 @@ const ImageUploader = () => {
 
       // Send POST request to API Gateway
       const response = await axios.post(
-        'https://tvf2ji6ap7.execute-api.us-east-1.amazonaws.com/prod/upload',
+        '?',
         { filename, contentType, email }
       );
 
       const { uploadURL } = response.data;
       console.log(uploadURL, response.data);
+
       // Upload the file to S3 using the pre-signed URL
       await axios.put(uploadURL, file, {
         headers: { 'Content-Type': file.type },
       });
 
       setMessage('Upload successful!');
-
 
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -44,8 +49,8 @@ const ImageUploader = () => {
   };
 
   return (
-    <div class="upload-container">
-      <h2>Upload Image</h2>
+    <div class="main-container">
+      <h2>Register</h2>
       <input
         type="email"
         placeholder="Enter your email"
@@ -53,11 +58,29 @@ const ImageUploader = () => {
         onChange={(e) => setEmail(e.target.value)}
         class="input-field"
       />
+      <input
+        type="password"
+        placeholder="Enter your password"
+        value={pass}
+        onChange={(e) => setPass(e.target.value)}
+        class="input-field"
+      />
+
       <input type="file" onChange={handleFileChange} class="file-input"/>
-      <button onClick={handleUpload} class="upload-button">Upload</button>
+
+      {image ? (
+        <img class="preview-image" src={image} />
+      ) : (
+        <div></div>
+      )}
+      
       <p class="message">{message}</p>
+
+      <button onClick={handleUpload} class="btn-button">Submit</button>
+
+      <p><Link to="/login">Login</Link></p>
     </div>
   );
 };
 
-export default ImageUploader;
+export default Register;
