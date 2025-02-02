@@ -73,7 +73,7 @@ const Register = () => {
       <input type="file" onChange={handleFileChange} class="file-input"/>
 
       {image ? (
-        <img class="preview-image" src={image} />
+        <img class="preview-image" alt="Preview image" src={image} />
       ) : (
         <div></div>
       )}

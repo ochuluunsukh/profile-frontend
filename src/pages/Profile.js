@@ -1,13 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate} from "react-router-dom";
 import { AuthContext } from "../App";
+
+import axios from 'axios';
 
 
 const Profile = () => {
     const { user, logout } = useContext(AuthContext);
     const [file, setFile] = useState(null);
-    const [image, setImage] = useState(null);
-    const [username, setUsername] = useState(user?.data.username || '');
+    const [image, setImage] = useState(user?.data?.image || null);
+    const [username, setUsername] = useState(user?.data?.username || '');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
@@ -18,7 +20,27 @@ const Profile = () => {
         }
     };
 
-    const handleUpload = async () => {}
+    const handleUpload = async () => {
+        if (!file) {
+            setMessage('Please select a file.');
+            return;
+        }
+
+        try {      
+            const uploadURL = user?.data?.image;
+            console.log(uploadURL);
+            // // Upload the file to S3 using the pre-signed URL
+            await axios.put(uploadURL, file, {
+              headers: { 'Content-Type': file.type },
+            });
+      
+            setMessage('Upload successful!');
+      
+          } catch (error) {
+            console.error('Error uploading file:', error);
+            setMessage('Upload failed. Please try again.');
+          }
+    }
 
     const handleLogout = (e) => {
         e.preventDefault();
@@ -41,7 +63,7 @@ const Profile = () => {
             <input type="file" onChange={handleFileChange} class="file-input"/>
 
             {image ? (
-                <img class="preview-image" src={image} />
+                <img class="preview-image" alt="Preview image" src={image} />
             ) : (
                 <div></div>
             )}
