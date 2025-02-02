@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Register = () => {
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null)
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPass] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -17,8 +19,8 @@ const Register = () => {
   };
 
   const handleUpload = async () => {
-    if (!file || !email) {
-      setMessage('Please select a file and enter your email.');
+    if (!file || !username || !password) {
+      setMessage('Please select a file, enter your usename and password.');
       return;
     }
 
@@ -28,8 +30,8 @@ const Register = () => {
 
       // Send POST request to API Gateway
       const response = await axios.post(
-        '?',
-        { filename, contentType, email }
+        'https://my4f80lzn0.execute-api.us-east-1.amazonaws.com/dev/signup',
+        { filename, contentType, username, password }
       );
 
       const { uploadURL } = response.data;
@@ -42,6 +44,8 @@ const Register = () => {
 
       setMessage('Upload successful!');
 
+      navigate("/profile");
+
     } catch (error) {
       console.error('Error uploading file:', error);
       setMessage('Upload failed. Please try again.');
@@ -52,16 +56,16 @@ const Register = () => {
     <div class="main-container">
       <h2>Register</h2>
       <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        placeholder="Enter your username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         class="input-field"
       />
       <input
         type="password"
         placeholder="Enter your password"
-        value={pass}
+        value={password}
         onChange={(e) => setPass(e.target.value)}
         class="input-field"
       />

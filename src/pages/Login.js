@@ -1,45 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
+
 import axios from 'axios';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPass] = useState('');
   const [message, setMessage] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-//   const handleFileChange = (e) => {
-//     setFile(e.target.files[0]);
-//   };
 
-  const handleSubmit = async () => {
-    // if (!file || !email) {
-    //   setMessage('Please select a file and enter your email.');
-    //   return;
-    // }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-    //   const filename = encodeURIComponent(file.name);
-    //   const contentType = file.type;
-
       // Send POST request to API Gateway
-    //   const response = await axios.post(
-    //     '?',
-    //     { filename, contentType, email }
-    //   );
+      const response = await axios.post(
+        'https://my4f80lzn0.execute-api.us-east-1.amazonaws.com/dev/login',
+        { username, password }
+      );
 
-    //   const { uploadURL } = response.data;
-    //   console.log(uploadURL, response.data);
-    //   // Upload the file to S3 using the pre-signed URL
-    //   await axios.put(uploadURL, file, {
-    //     headers: { 'Content-Type': file.type },
-    //   });
-
-      setMessage('successful!');
-
+      login(response);
+      navigate("/profile");
 
     } catch (error) {
-      console.error('Error uploading file:', error);
-      setMessage('Upload failed. Please try again.');
+      console.error('Error:', error);
+      setMessage('Wrong username and password.');
     }
   };
 
@@ -47,16 +34,16 @@ const Login = () => {
     <div class="main-container">
       <h2>Login</h2>
       <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        placeholder="Enter your username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         class="input-field"
       />
       <input
         type="password"
         placeholder="Enter your password"
-        value={pass}
+        value={password}
         onChange={(e) => setPass(e.target.value)}
         class="input-field"
       />

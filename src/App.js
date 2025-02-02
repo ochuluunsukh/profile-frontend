@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useNavigate} from "react-router-dom";
+import { AuthContext } from "../App";
+
 
 const Profile = () => {
+    const { user, logout } = useContext(AuthContext);
     const [file, setFile] = useState(null);
-    const [image, setImage] = useState(null)
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [image, setImage] = useState(null);
+    const [username, setUsername] = useState(user?.data.username || '');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -19,24 +22,20 @@ const Profile = () => {
 
     const handleLogout = (e) => {
         e.preventDefault();
+        logout();
+        navigate("/login");
     }
 
     return (
         <div class="main-container">
             <h2>My Profile</h2>
             <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 class="input-field"
-            />
-            <input
-                type="password"
-                placeholder="Enter your password"
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
-                class="input-field"
+                readonly="true"
             />
 
             <input type="file" onChange={handleFileChange} class="file-input"/>
