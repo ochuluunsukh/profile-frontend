@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div class="main-container">
-      <h2>Welcome</h2>
+      <h2>Welcome to react app</h2>
       <div>
         <Link to="/register">Register</Link>
         <p></p>
