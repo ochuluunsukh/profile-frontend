@@ -30,7 +30,7 @@ const Register = () => {
 
       // Send POST request to API Gateway
       const response = await axios.post(
-        'https://e7tpo9rpo8.execute-api.us-east-1.amazonaws.com/api',
+        'https://e7tpo9rpo8.execute-api.us-east-1.amazonaws.com/api/signup',
         { filename, contentType, username, password }
       );
 
