@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <div class="main-container">
-      <h2>Login 123</h2>
+      <h2>Login</h2>
       <input
         type="text"
         placeholder="Enter your username"
