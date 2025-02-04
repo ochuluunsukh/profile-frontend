@@ -44,7 +44,7 @@ const Register = () => {
 
       setMessage('Upload successful!');
 
-      navigate("/profile");
+      navigate("/login");
 
     } catch (error) {
       console.error('Error uploading file:', error);
