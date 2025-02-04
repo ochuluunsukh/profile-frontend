@@ -17,7 +17,7 @@ const Login = () => {
     try {
       // Send POST request to API Gateway
       const response = await axios.post(
-        'https://my4f80lzn0.execute-api.us-east-1.amazonaws.com/dev/login',
+        'https://e7tpo9rpo8.execute-api.us-east-1.amazonaws.com/api',
         { username, password }
       );
 
