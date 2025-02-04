@@ -1,7 +1,4 @@
 version: 0.1
-env:
-  variables:
-    CLOUDFRONT_DISTRIBUTION_ID: "E39J316EZD2MTO"
 
 phases:
   install:
@@ -10,7 +7,7 @@ phases:
   build:
     commands:
       - npm run build
-      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+      - aws cloudfront create-invalidation --distribution-id E39J316EZD2MTO --paths "/*"
 artifacts:
   files:
     - '**/*'
