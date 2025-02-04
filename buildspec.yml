@@ -1,5 +1,7 @@
 version: 0.1
-CLOUDFRONT_DISTRIBUTION_ID: "E39J316EZD2MTO"
+env:
+  variables:
+    CLOUDFRONT_DISTRIBUTION_ID: "E39J316EZD2MTO"
 
 phases:
   install:
