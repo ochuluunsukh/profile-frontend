@@ -9,6 +9,7 @@ phases:
       - npm install
   build:
     commands:
+      - echo "CloudFront Distribution ID: $CLOUDFRONT_DISTRIBUTION_ID"
       - npm run build  # Builds the project
       - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
 artifacts:
